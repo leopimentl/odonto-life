@@ -1,13 +1,15 @@
 package com.leandrokhalel.OdontoLife.model;
 
-import com.leandrokhalel.OdontoLife.dto.EnderecoDTO;
+import com.leandrokhalel.OdontoLife.dto.DadosEndereco;
 import jakarta.persistence.Embeddable;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Embeddable
 @Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class Endereco {
@@ -20,13 +22,13 @@ public class Endereco {
     private String cep;
     private String complemento;
 
-    public Endereco(EnderecoDTO dto) {
-        this.uf = dto.uf();
-        this.cidade = dto.cidade();
-        this.logradouro = dto.logradouro();
-        this.bairro = dto.bairro();
-        this.numero = dto.numero();
-        this.cep = dto.cep();
-        this.complemento = dto.complemento();
+    public Endereco(DadosEndereco endereco) {
+        this(endereco.uf(),
+                endereco.cidade(),
+                endereco.logradouro(),
+                endereco.bairro(),
+                endereco.cep(),
+                endereco.numero(),
+                endereco.complemento());
     }
 }

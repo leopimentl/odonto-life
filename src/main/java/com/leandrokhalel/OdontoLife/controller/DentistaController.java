@@ -1,27 +1,35 @@
 package com.leandrokhalel.OdontoLife.controller;
 
-import com.leandrokhalel.OdontoLife.dto.DentistaDTO;
+import com.leandrokhalel.OdontoLife.dto.DadosCadastroDentista;
+import com.leandrokhalel.OdontoLife.dto.DadosDetalhamentoDentista;
 import com.leandrokhalel.OdontoLife.service.DentistaService;
-import org.springframework.beans.factory.annotation.Autowired;
+import jakarta.validation.Valid;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
 @RestController
-@RequestMapping("/dentistas")
 public class DentistaController {
 
-    private final DentistaService dentistaService;
+    final DentistaService dentistaService;
 
-    @Autowired
     public DentistaController(DentistaService dentistaService) {
         this.dentistaService = dentistaService;
     }
 
-    @PostMapping
-    public void criar(@RequestBody DentistaDTO dto, UriComponentsBuilder uriBuilder) {
-        dentistaService.criar(dto);
+    @PostMapping("/dentistas")
+    public ResponseEntity<DadosDetalhamentoDentista> salvarDentista(@RequestBody @Valid DadosCadastroDentista dto, UriComponentsBuilder uriBuilder) {
+
+        var dadosDentista = dentistaService.salvar(dto);
+
+        var location = uriBuilder
+                .path("/dentistas/{id}")
+                .buildAndExpand(dadosDentista.id())
+                .toUri();
+
+        return ResponseEntity.status(HttpStatus.CREATED).location(location).body(dadosDentista);
     }
 }

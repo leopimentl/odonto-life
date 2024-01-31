@@ -1,25 +1,40 @@
 package com.leandrokhalel.OdontoLife.service;
 
-import com.leandrokhalel.OdontoLife.dto.DentistaDTO;
+import com.leandrokhalel.OdontoLife.dto.DadosCadastroDentista;
+import com.leandrokhalel.OdontoLife.dto.DadosDetalhamentoDentista;
 import com.leandrokhalel.OdontoLife.model.Dentista;
+import com.leandrokhalel.OdontoLife.model.Endereco;
 import com.leandrokhalel.OdontoLife.repository.IDentistaRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class DentistaService {
 
-    private final IDentistaRepository dentistaRepository;
+    final IDentistaRepository dentistaRepository;
 
-    @Autowired
     public DentistaService(IDentistaRepository dentistaRepository) {
         this.dentistaRepository = dentistaRepository;
     }
 
     @Transactional
-    public void criar(DentistaDTO dto) {
-        Dentista dentista = new Dentista(dto);
+    public DadosDetalhamentoDentista salvar(DadosCadastroDentista dto) {
+        var dentista = dtoParaDentista(dto);
         dentistaRepository.save(dentista);
+
+        return new DadosDetalhamentoDentista(dentista);
+    }
+
+    private Dentista dtoParaDentista(DadosCadastroDentista dto) {;
+        return new Dentista(
+                null,
+                dto.nome(),
+                dto.email(),
+                dto.telefone(),
+                dto.cro(),
+                dto.especialidade(),
+                new Endereco(dto.endereco())
+        );
     }
 }

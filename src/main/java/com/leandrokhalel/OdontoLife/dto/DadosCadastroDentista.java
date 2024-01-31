@@ -6,8 +6,9 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
+import org.springframework.data.repository.query.Param;
 
-public record DentistaDTO(
+public record DadosCadastroDentista(
 
         @NotBlank
         String nome,
@@ -15,13 +16,16 @@ public record DentistaDTO(
         @NotBlank @Email
         String email,
 
-        @NotBlank @Pattern(regexp = "\\d{11}")
+        @NotBlank
+        String telefone,
+
+        @NotBlank
         String cro,
 
         @NotNull
         Especialidade especialidade,
 
         @NotNull @Valid
-        EnderecoDTO endereco
+        DadosEndereco endereco
 ) {
 }
