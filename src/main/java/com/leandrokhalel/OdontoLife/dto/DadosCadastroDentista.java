@@ -1,12 +1,12 @@
 package com.leandrokhalel.OdontoLife.dto;
 
+import com.leandrokhalel.OdontoLife.model.Dentista;
+import com.leandrokhalel.OdontoLife.model.Endereco;
 import com.leandrokhalel.OdontoLife.model.Especialidade;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Pattern;
-import org.springframework.data.repository.query.Param;
 
 public record DadosCadastroDentista(
 
