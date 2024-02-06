@@ -1,6 +1,7 @@
 package com.leandrokhalel.OdontoLife.service;
 
 import com.leandrokhalel.OdontoLife.config.DentistaMapper;
+import com.leandrokhalel.OdontoLife.dto.DadosAtualizacaoDentista;
 import com.leandrokhalel.OdontoLife.dto.DadosCadastroDentista;
 import com.leandrokhalel.OdontoLife.dto.DadosDetalhamentoDentista;
 import com.leandrokhalel.OdontoLife.dto.DadosListagemDentista;
@@ -21,7 +22,7 @@ public class DentistaService {
 
     @Transactional
     public DadosListagemDentista save(DadosCadastroDentista cadastro) {
-        var dentista = dentistaRepository.save(DentistaMapper.fromDadosCadastroToDentista(cadastro));
+        var dentista = this.dentistaRepository.save(DentistaMapper.fromDadosCadastroToDentista(cadastro));
 
         return DentistaMapper.fromDentistaToDadosListagem(dentista);
     }
@@ -29,14 +30,25 @@ public class DentistaService {
     @Transactional(readOnly = true)
     public Page<DadosListagemDentista> findAll(Pageable pageable) {
 
-        return dentistaRepository
+        return this.dentistaRepository
                 .findAll(pageable)
                 .map(DentistaMapper::fromDentistaToDadosListagem);
     }
 
     @Transactional(readOnly = true)
     public DadosDetalhamentoDentista findById(Long id) {
-        var dentista = dentistaRepository.findById(id).get();
+        var dentista = this.dentistaRepository.findById(id).get();
+
+        return DentistaMapper.fromDentistaToDetalhamento(dentista);
+    }
+
+
+    public DadosDetalhamentoDentista updateById(Long id, DadosAtualizacaoDentista request) {
+        var dentista = this.dentistaRepository.findById(id).get();
+
+        DentistaMapper.updateProperties(request, dentista);
+
+        this.dentistaRepository.save(dentista);
 
         return DentistaMapper.fromDentistaToDetalhamento(dentista);
     }

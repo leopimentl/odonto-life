@@ -1,5 +1,6 @@
 package com.leandrokhalel.OdontoLife.controller;
 
+import com.leandrokhalel.OdontoLife.dto.DadosAtualizacaoDentista;
 import com.leandrokhalel.OdontoLife.dto.DadosCadastroDentista;
 import com.leandrokhalel.OdontoLife.dto.DadosDetalhamentoDentista;
 import com.leandrokhalel.OdontoLife.dto.DadosListagemDentista;
@@ -24,7 +25,7 @@ public class DentistaController {
     @PostMapping("/dentistas")
     public ResponseEntity<DadosListagemDentista> save(@RequestBody @Valid DadosCadastroDentista request, UriComponentsBuilder uriBuilder) {
 
-        var dadosDentista = dentistaService.save(request);
+        var dadosDentista = this.dentistaService.save(request);
 
         var location = uriBuilder
                 .path("/dentistas/{id}")
@@ -39,7 +40,7 @@ public class DentistaController {
 
     @GetMapping("/dentistas")
     public ResponseEntity<Page<DadosListagemDentista>> findAll(Pageable pageable) {
-        var page = dentistaService.findAll(pageable);
+        var page = this.dentistaService.findAll(pageable);
 
         return ResponseEntity
                 .status(HttpStatus.OK)
@@ -51,6 +52,14 @@ public class DentistaController {
 
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(dentistaService.findById(id));
+                .body(this.dentistaService.findById(id));
+    }
+
+    @PutMapping("/dentistas")
+    public ResponseEntity<DadosDetalhamentoDentista> updateById(@RequestBody DadosAtualizacaoDentista request) {
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(this.dentistaService.updateById(request.id(), request));
     }
 }

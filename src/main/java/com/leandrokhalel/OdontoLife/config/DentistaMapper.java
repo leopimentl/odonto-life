@@ -1,9 +1,6 @@
 package com.leandrokhalel.OdontoLife.config;
 
-import com.leandrokhalel.OdontoLife.dto.DadosCadastroDentista;
-import com.leandrokhalel.OdontoLife.dto.DadosDetalhamentoDentista;
-import com.leandrokhalel.OdontoLife.dto.DadosEndereco;
-import com.leandrokhalel.OdontoLife.dto.DadosListagemDentista;
+import com.leandrokhalel.OdontoLife.dto.*;
 import com.leandrokhalel.OdontoLife.model.Dentista;
 import com.leandrokhalel.OdontoLife.model.Endereco;
 
@@ -41,5 +38,20 @@ public class DentistaMapper {
                 dentista.getEspecialidade(),
                 new DadosEndereco(dentista.getEndereco())
         );
+    }
+
+    public static Dentista updateProperties(DadosAtualizacaoDentista data, Dentista target) {
+
+        if(data.nome() != null) {
+            target.setNome(data.nome());
+        }
+        if(data.telefone() != null) {
+            target.setTelefone(data.telefone());
+        }
+        if(data.endereco()!= null) {
+            target.getEndereco().updateEdereco(data.endereco());
+        }
+
+        return target;
     }
 }
