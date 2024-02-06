@@ -21,17 +21,17 @@ public class DentistaService {
     }
 
     @Transactional
-    public DadosListagemDentista save(DadosCadastroDentista cadastro) {
+    public DadosDetalhamentoDentista save(DadosCadastroDentista cadastro) {
         var dentista = this.dentistaRepository.save(DentistaMapper.fromDadosCadastroToDentista(cadastro));
 
-        return DentistaMapper.fromDentistaToDadosListagem(dentista);
+        return DentistaMapper.fromDentistaToDetalhamento(dentista);
     }
 
     @Transactional(readOnly = true)
-    public Page<DadosListagemDentista> findAll(Pageable pageable) {
+    public Page<DadosListagemDentista> findAllAtivos(Pageable pageable) {
 
         return this.dentistaRepository
-                .findAll(pageable)
+                .findAllByAtivoTrue(pageable)
                 .map(DentistaMapper::fromDentistaToDadosListagem);
     }
 
@@ -44,12 +44,20 @@ public class DentistaService {
 
 
     public DadosDetalhamentoDentista updateById(Long id, DadosAtualizacaoDentista request) {
-        var dentista = this.dentistaRepository.findById(id).get();
+        var dentista = this.dentistaRepository.getReferenceById(id);
 
         DentistaMapper.updateProperties(request, dentista);
 
         this.dentistaRepository.save(dentista);
 
         return DentistaMapper.fromDentistaToDetalhamento(dentista);
+    }
+
+    public void deleteById(Long id) {
+        var dentista = this.dentistaRepository.getReferenceById(id);
+
+        dentista.setAtivo(false);
+
+        this.dentistaRepository.save(dentista);
     }
 }

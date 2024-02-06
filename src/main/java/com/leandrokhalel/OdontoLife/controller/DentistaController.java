@@ -23,7 +23,7 @@ public class DentistaController {
     }
 
     @PostMapping("/dentistas")
-    public ResponseEntity<DadosListagemDentista> save(@RequestBody @Valid DadosCadastroDentista request, UriComponentsBuilder uriBuilder) {
+    public ResponseEntity<DadosDetalhamentoDentista> save(@RequestBody @Valid DadosCadastroDentista request, UriComponentsBuilder uriBuilder) {
 
         var dadosDentista = this.dentistaService.save(request);
 
@@ -39,12 +39,12 @@ public class DentistaController {
     }
 
     @GetMapping("/dentistas")
-    public ResponseEntity<Page<DadosListagemDentista>> findAll(Pageable pageable) {
-        var page = this.dentistaService.findAll(pageable);
+    public ResponseEntity<Page<DadosListagemDentista>> findAllAtivos(Pageable pageable) {
+        var page = this.dentistaService.findAllAtivos(pageable);
 
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(dentistaService.findAll(pageable));
+                .body(dentistaService.findAllAtivos(pageable));
     }
 
     @GetMapping("/dentistas/{id}")
@@ -61,5 +61,14 @@ public class DentistaController {
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(this.dentistaService.updateById(request.id(), request));
+    }
+
+    @DeleteMapping("/dentistas/{id}")
+    public ResponseEntity<Void> deleteById(@PathVariable Long id) {
+        this.dentistaService.deleteById(id);
+
+        return ResponseEntity
+                .status(HttpStatus.NO_CONTENT)
+                .build();
     }
 }

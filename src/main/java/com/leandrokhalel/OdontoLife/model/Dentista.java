@@ -25,4 +25,6 @@ public class Dentista {
 
     @Embedded
     private Endereco endereco;
+
+    private Boolean ativo;
 }

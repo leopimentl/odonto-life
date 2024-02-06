@@ -14,7 +14,8 @@ public class DentistaMapper {
                 cadastro.telefone(),
                 cadastro.cro(),
                 cadastro.especialidade(),
-                new Endereco(cadastro.endereco())
+                new Endereco(cadastro.endereco()),
+                true
         );
     }
 
