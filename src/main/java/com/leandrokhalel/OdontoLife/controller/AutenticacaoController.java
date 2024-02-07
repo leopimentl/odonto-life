@@ -25,14 +25,10 @@ public class AutenticacaoController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<DadosTokenJWT> login(@RequestBody @Valid DadosAutenticao request){
+    public ResponseEntity<DadosTokenJWT> login(@RequestBody @Valid DadosAutenticao request) {
         var authenticationToken = new UsernamePasswordAuthenticationToken(request.login(), request.senha());
         var authentication = authenticationManager.authenticate(authenticationToken);
-
         var tokenJWT = tokenService.generate((Usuario) authentication.getPrincipal());
-
-        return ResponseEntity
-                .status(HttpStatus.OK)
-                .body(new DadosTokenJWT(tokenJWT));
+        return ResponseEntity.ok(new DadosTokenJWT(tokenJWT));
     }
 }
