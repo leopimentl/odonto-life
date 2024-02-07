@@ -22,43 +22,33 @@ public class DentistaService {
 
     @Transactional
     public DadosDetalhamentoDentista save(DadosCadastroDentista cadastro) {
-        var dentista = this.dentistaRepository.save(DentistaMapper.fromDadosCadastroToDentista(cadastro));
-
+        var dentista = dentistaRepository.save(DentistaMapper.fromDadosCadastroToDentista(cadastro));
         return DentistaMapper.fromDentistaToDetalhamento(dentista);
     }
 
     @Transactional(readOnly = true)
     public Page<DadosListagemDentista> findAllAtivos(Pageable pageable) {
-
-        return this.dentistaRepository
-                .findAllByAtivoTrue(pageable)
-                .map(DentistaMapper::fromDentistaToDadosListagem);
+        return dentistaRepository.findAllByAtivoTrue(pageable).map(DentistaMapper::fromDentistaToDadosListagem);
     }
 
     @Transactional(readOnly = true)
     public DadosDetalhamentoDentista getById(Long id) {
-        var dentista = this.dentistaRepository.getReferenceById(id);
-
+        var dentista = dentistaRepository.getReferenceById(id);
         return DentistaMapper.fromDentistaToDetalhamento(dentista);
     }
 
     @Transactional
     public DadosDetalhamentoDentista updateById(Long id, DadosAtualizacaoDentista request) {
         var dentista = this.dentistaRepository.getReferenceById(id);
-
         DentistaMapper.updateProperties(request, dentista);
-
-        this.dentistaRepository.save(dentista);
-
+        dentistaRepository.save(dentista);
         return DentistaMapper.fromDentistaToDetalhamento(dentista);
     }
 
     @Transactional
     public void deleteById(Long id) {
         var dentista = this.dentistaRepository.getReferenceById(id);
-
         dentista.setAtivo(false);
-
         this.dentistaRepository.save(dentista);
     }
 }

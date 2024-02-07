@@ -8,12 +8,12 @@ import com.leandrokhalel.OdontoLife.service.DentistaService;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
 @RestController
+@RequestMapping("/dentistas")
 public class DentistaController {
 
     final DentistaService dentistaService;
@@ -22,53 +22,31 @@ public class DentistaController {
         this.dentistaService = dentistaService;
     }
 
-    @PostMapping("/dentistas")
+    @PostMapping
     public ResponseEntity<DadosDetalhamentoDentista> save(@RequestBody @Valid DadosCadastroDentista request, UriComponentsBuilder uriBuilder) {
-
-        var dadosDentista = this.dentistaService.save(request);
-
-        var location = uriBuilder
-                .path("/dentistas/{id}")
-                .buildAndExpand(dadosDentista.id())
-                .toUri();
-
-        return ResponseEntity
-                .status(HttpStatus.CREATED)
-                .location(location)
-                .body(dadosDentista);
+        var dentista = dentistaService.save(request);
+        var location = uriBuilder.path("/dentistas/{id}").buildAndExpand(dentista.id()).toUri();
+        return ResponseEntity.created(location).body(dentista);
     }
 
-    @GetMapping("/dentistas")
+    @GetMapping
     public ResponseEntity<Page<DadosListagemDentista>> findAllAtivos(Pageable pageable) {
-        var page = this.dentistaService.findAllAtivos(pageable);
-
-        return ResponseEntity
-                .status(HttpStatus.OK)
-                .body(dentistaService.findAllAtivos(pageable));
+        return ResponseEntity.ok(dentistaService.findAllAtivos(pageable));
     }
 
-    @GetMapping("/dentistas/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<DadosDetalhamentoDentista> findById(@PathVariable Long id) {
-
-        return ResponseEntity
-                .status(HttpStatus.OK)
-                .body(this.dentistaService.getById(id));
+        return ResponseEntity.ok(this.dentistaService.getById(id));
     }
 
-    @PutMapping("/dentistas")
-    public ResponseEntity<DadosDetalhamentoDentista> updateById(@RequestBody DadosAtualizacaoDentista request) {
-
-        return ResponseEntity
-                .status(HttpStatus.OK)
-                .body(this.dentistaService.updateById(request.id(), request));
+    @PutMapping
+    public ResponseEntity<DadosDetalhamentoDentista> updateById(@RequestBody DadosAtualizacaoDentista dentista) {
+        return ResponseEntity.ok(dentistaService.updateById(dentista.id(), dentista));
     }
 
-    @DeleteMapping("/dentistas/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteById(@PathVariable Long id) {
-        this.dentistaService.deleteById(id);
-
-        return ResponseEntity
-                .status(HttpStatus.NO_CONTENT)
-                .build();
+        dentistaService.deleteById(id);
+        return ResponseEntity.noContent().build();
     }
 }
