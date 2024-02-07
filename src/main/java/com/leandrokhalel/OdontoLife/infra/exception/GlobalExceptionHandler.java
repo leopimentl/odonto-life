@@ -1,4 +1,4 @@
-package com.leandrokhalel.OdontoLife.infra;
+package com.leandrokhalel.OdontoLife.infra.exception;
 
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.http.HttpStatus;
