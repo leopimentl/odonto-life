@@ -1,4 +1,4 @@
-package com.leandrokhalel.OdontoLife.service;
+package com.leandrokhalel.OdontoLife.infra.security;
 
 import com.leandrokhalel.OdontoLife.repository.IUsuarioRepository;
 import org.springframework.security.core.userdetails.UserDetails;

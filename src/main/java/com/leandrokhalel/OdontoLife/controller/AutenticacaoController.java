@@ -1,9 +1,9 @@
 package com.leandrokhalel.OdontoLife.controller;
 
 import com.leandrokhalel.OdontoLife.dto.DadosAutenticao;
-import com.leandrokhalel.OdontoLife.dto.DadosTokenJWT;
+import com.leandrokhalel.OdontoLife.infra.security.DadosTokenJWT;
 import com.leandrokhalel.OdontoLife.model.Usuario;
-import com.leandrokhalel.OdontoLife.service.TokenService;
+import com.leandrokhalel.OdontoLife.infra.security.TokenService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

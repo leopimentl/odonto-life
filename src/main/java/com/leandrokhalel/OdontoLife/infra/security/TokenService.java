@@ -1,4 +1,4 @@
-package com.leandrokhalel.OdontoLife.service;
+package com.leandrokhalel.OdontoLife.infra.security;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
