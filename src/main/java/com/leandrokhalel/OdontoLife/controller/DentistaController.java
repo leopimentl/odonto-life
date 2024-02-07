@@ -52,7 +52,7 @@ public class DentistaController {
 
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(this.dentistaService.findById(id));
+                .body(this.dentistaService.getById(id));
     }
 
     @PutMapping("/dentistas")

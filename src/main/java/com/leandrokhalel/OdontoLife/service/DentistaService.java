@@ -36,13 +36,13 @@ public class DentistaService {
     }
 
     @Transactional(readOnly = true)
-    public DadosDetalhamentoDentista findById(Long id) {
-        var dentista = this.dentistaRepository.findById(id).get();
+    public DadosDetalhamentoDentista getById(Long id) {
+        var dentista = this.dentistaRepository.getReferenceById(id);
 
         return DentistaMapper.fromDentistaToDetalhamento(dentista);
     }
 
-
+    @Transactional
     public DadosDetalhamentoDentista updateById(Long id, DadosAtualizacaoDentista request) {
         var dentista = this.dentistaRepository.getReferenceById(id);
 
@@ -53,6 +53,7 @@ public class DentistaService {
         return DentistaMapper.fromDentistaToDetalhamento(dentista);
     }
 
+    @Transactional
     public void deleteById(Long id) {
         var dentista = this.dentistaRepository.getReferenceById(id);
 
